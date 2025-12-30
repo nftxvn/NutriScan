@@ -193,6 +193,8 @@ MIT License - lihat file [LICENSE](LICENSE) untuk detail.
 
 ## 👥 Contributors
 
-- Developer - [Muhammad Naufal Tiftazani]
-
+- Frontend Developer - [Muhammad Naufal Tiftazani]
+- Backend Developer - [Zulfahmi & Ikhlassul Amal]
+- Database Administrator - [Fasya Habibburahman]
+- Quality Assurance - [Alpatehul Rahman]
 ---

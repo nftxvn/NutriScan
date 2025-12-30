@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  name          String
+  role          String    @default("user") // "user" | "admin"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  avatar        String?   @db.Text // URL or Base64 URI
+
+  profile       UserProfile?
+  logs          DailyLog[]
+  metrics       DailyMetric[]
+  createdFoods  FoodItem[] @relation("CreatedFoods")
+}
+
+model UserProfile {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  gender          String   // "male" | "female"
+  dateOfBirth     DateTime
+  height          Float    // in cm
+  weight          Float    // in kg
+  mainGoal        String   // "lose" | "maintain" | "gain"
+  
+  // Calculated Targets
+  targetCalories  Int
+  targetProtein   Int      // in grams
+  targetCarbs     Int      // in grams
+  targetFats      Int      // in grams
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model FoodItem {
+  id          String   @id @default(uuid())
+  name        String
+  brand       String?
+  servingSize String?  // e.g. "100g" or "1 cup"
+  calories    Int      // kcal
+  protein     Float    // g
+  carbs       Float    // g
+  fats        Float    // g
+  barcode     String?  @unique
+  
+  image       String?  @db.Text
+  type        String?  @default("local") // "local" | "fastfood" | "snack"
+
+  isPublic    Boolean  @default(true)
+  createdBy   String?
+  creator     User?    @relation("CreatedFoods", fields: [createdBy], references: [id], onDelete: SetNull)
+
+  logs        DailyLog[]
+}
+
+model DailyLog {
+  id        String   @id @default(uuid())
+  userId    String
+  foodId    String
+  date      DateTime @default(now())
+  mealType  String   // "BREAKFAST", "LUNCH", "DINNER", "SNACK"
+  quantity  Float    // multiplier of serving size (e.g. 1.0, 0.5)
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  food      FoodItem @relation(fields: [foodId], references: [id])
+  
+  @@index([userId, date])
+}
+
+model DailyMetric {
+  id             String   @id @default(uuid())
+  userId         String
+  date           DateTime @default(now())
+  
+  weightRecorded Float?   // kg
+  waterIntake    Float    @default(0) // Liters
+  sleepMinutes   Int      @default(0) // Minutes
+
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId])
+}

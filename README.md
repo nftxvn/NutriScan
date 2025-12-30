@@ -193,10 +193,6 @@ MIT License - lihat file [LICENSE](LICENSE) untuk detail.
 
 ## 👥 Contributors
 
-- Developer - [Nama Anda]
+- Developer - [Muhammad Naufal Tiftazani]
 
 ---
-
-<p align="center">
-  Made with ❤️ using React Native & Express.js
-</p>

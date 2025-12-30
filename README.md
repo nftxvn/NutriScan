@@ -193,10 +193,9 @@ MIT License - lihat file [LICENSE](LICENSE) untuk detail.
 
 ## 👥 Contributors
 
-- Developer - [Nama Anda]
+- Frontend Developer - [Muhammad Naufal Tiftazani]
+- Backend Developer - [Zulfahmi & Ikhlassul Amal]
+- Database Administrator - [Fasya Habibburahman]
+- Quality Assurance - [Alpatehul Rahman]
 
 ---
-
-<p align="center">
-  Made with ❤️ using React Native & Express.js
-</p>

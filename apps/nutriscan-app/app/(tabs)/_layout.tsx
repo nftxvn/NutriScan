@@ -148,6 +148,13 @@ export default function TabLayout() {
     return () => backHandler.remove();
   }, []);
 
+  // FAB press handler - MUST be before early returns (hooks rule)
+  const handleFabPress = useDebouncedCallback(() => {
+    animateFabOuto(() => {
+      router.push({ pathname: "/food-catalog/form", params: { autoLog: "true" } });
+    });
+  });
+
   // Show loading state while checking auth
   if (isLoading) {
     return (
@@ -161,12 +168,6 @@ export default function TabLayout() {
   if (!user) {
     return <Redirect href="/onboarding/welcome" />;
   }
-
-  const handleFabPress = useDebouncedCallback(() => {
-    animateFabOuto(() => {
-      router.push({ pathname: "/food-catalog/form", params: { autoLog: "true" } });
-    });
-  });
 
   return (
     <GlowBackground glowPosition="dual-corner" intensity={0.3}>
